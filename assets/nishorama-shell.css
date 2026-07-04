@@ -794,7 +794,7 @@ p {
 .drawer,
 .search-overlay-panel {
   position: absolute;
-  top: 6rem;
+  top: 7.25rem;
   width: min(calc(100% - 2rem), 34rem);
   max-height: calc(100vh - 8rem);
   overflow: auto;
@@ -844,6 +844,10 @@ p {
 .panel-head p {
   font-size: 0.94rem;
   max-width: 24rem;
+}
+
+.drawer-cta {
+  width: 100%;
 }
 
 .close-button,
@@ -1280,7 +1284,7 @@ p {
   }
 
   .drawer {
-    top: 5.5rem;
+    top: 6.25rem;
     max-height: calc(100vh - 6rem);
   }
 

@@ -135,6 +135,9 @@
     }
     drawer.hidden = false;
     layer.hidden = false;
+    if (drawer === bagPanel && bagToggle) {
+      bagToggle.setAttribute("aria-expanded", "true");
+    }
     requestAnimationFrame(() => {
       layer.classList.add("is-open");
       drawer.classList.add("is-open");
@@ -148,6 +151,9 @@
     }
     layer.classList.remove("is-open");
     drawer.classList.remove("is-open");
+    if (drawer === bagPanel && bagToggle) {
+      bagToggle.setAttribute("aria-expanded", "false");
+    }
     body.style.overflow = "";
     window.setTimeout(() => {
       drawer.hidden = true;
@@ -159,6 +165,7 @@
   const bagPanel = document.getElementById("bagPanel");
   const bagContent = document.getElementById("bagContent");
   const bagToggle = document.getElementById("bagToggle");
+  const closeBagButton = document.getElementById("closeBag");
   const wishlistToggle = document.getElementById("wishlistToggle");
 
   const renderBag = () => {
@@ -209,6 +216,7 @@
         <div class="summary-row"><span>Shipping</span><span>Calculated at checkout</span></div>
         <div class="summary-row"><span>Gift wrap</span><span>Complimentary over INR 18,000</span></div>
       </div>
+      <a class="button primary drawer-cta" href="checkout.html">Checkout</a>
     `;
   };
 
@@ -532,6 +540,12 @@
         } else {
           closeDrawer(bagPanel, bagLayer);
         }
+      });
+    }
+
+    if (closeBagButton) {
+      closeBagButton.addEventListener("click", () => {
+        closeDrawer(bagPanel, bagLayer);
       });
     }
 

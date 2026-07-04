@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nishorama | Checkout Review</title>
+  <meta name="description" content="Review your Nishorama bag before completing checkout.">
+  <link rel="stylesheet" href="assets/nishorama-shell.css">
+  <style>
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
+      gap: 1rem;
+      align-items: start;
+    }
+    .checkout-panel {
+      padding: 1.1rem;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+    .checkout-list {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .checkout-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid rgba(42, 33, 26, 0.08);
+    }
+    .checkout-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .checkout-total {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 1rem;
+      margin-top: 1rem;
+      border-top: 1px solid rgba(42, 33, 26, 0.08);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="announcement" aria-label="Announcement bar">
+    <div class="announcement-track" aria-hidden="true">
+      <span>Checkout review | Finalize your Nishorama edit</span>
+      <span>Warm neutral gifting, fitting notes, and concise order review</span>
+      <span>Checkout review | Finalize your Nishorama edit</span>
+      <span>Warm neutral gifting, fitting notes, and concise order review</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="index.html">Nishorama</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="categories.html">Categories</a>
+        <a class="nav-link" href="wishlist.html">Wishlist</a>
+      </nav>
+      <div class="nav-actions">
+        <a class="button secondary" href="categories.html">Continue Shopping</a>
+        <a class="button primary" href="orders.html">Orders</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section hero">
+      <div class="wrap hero-shell">
+        <div class="hero-copy">
+          <span class="eyebrow">Checkout</span>
+          <h1>Review your bag before placing the order.</h1>
+          <p>The checkout page is intentionally calm: clear order review, simple totals, and a quiet path back to the catalog if you want to adjust sizes or quantities.</p>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-card">
+            <strong id="checkoutItemCount">0</strong>
+            <span>items in your bag</span>
+          </div>
+          <div class="meta-card">
+            <strong id="checkoutSubtotal">INR 0</strong>
+            <span>current subtotal</span>
+          </div>
+          <div class="meta-card">
+            <strong>48 hrs</strong>
+            <span>dispatch on ready-to-ship pieces</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap checkout-grid">
+        <div class="checkout-panel">
+          <span class="eyebrow">Bag Review</span>
+          <h2>Items in your cart.</h2>
+          <div id="checkoutItems" class="checkout-list"></div>
+        </div>
+        <div class="checkout-panel">
+          <span class="eyebrow">Summary</span>
+          <h2>Quiet, simple totals.</h2>
+          <div class="cart-summary" style="margin-top:1rem;">
+            <div class="summary-row"><span>Subtotal</span><strong id="summarySubtotal">INR 0</strong></div>
+            <div class="summary-row"><span>Shipping</span><span>Calculated at checkout</span></div>
+            <div class="summary-row"><span>Gift wrap</span><span>Complimentary over INR 18,000</span></div>
+          </div>
+          <div class="panel-actions" style="margin-top:1rem;">
+            <a class="button primary drawer-cta" href="mailto:hello@nishorama.house?subject=Nishorama%20Checkout%20Assistance">Checkout Assistance</a>
+            <a class="button secondary drawer-cta" href="categories.html">Edit Bag</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-shell">
+      <div class="footer-top">
+        <a class="brand" href="index.html">Nishorama</a>
+        <div class="panel-actions">
+          <a class="button secondary" href="categories.html">Back to Categories</a>
+          <a class="button primary" href="wishlist.html">Wishlist</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Checkout review page for Nishorama.</span>
+        <span>All totals reflect the current session cart.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/nishorama-data.js"></script>
+  <script>
+    const cartKey = "nishorama-cart-v2";
+    const catalog = new Map((window.NishoramaStore?.products || []).map((product) => [product.id, product]));
+    const checkoutItems = document.getElementById("checkoutItems");
+    const checkoutItemCount = document.getElementById("checkoutItemCount");
+    const checkoutSubtotal = document.getElementById("checkoutSubtotal");
+    const summarySubtotal = document.getElementById("summarySubtotal");
+    const formatPrice = (value) => `INR ${Number(value).toLocaleString("en-IN")}`;
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem(cartKey) || "[]");
+    } catch {
+      cart = [];
+    }
+    const entries = Array.isArray(cart) ? cart : [];
+    const totalItems = entries.reduce((sum, [, qty]) => sum + qty, 0);
+    const subtotal = entries.reduce((sum, [productId, qty]) => {
+      const product = catalog.get(productId);
+      return sum + ((product?.price || 0) * qty);
+    }, 0);
+
+    checkoutItemCount.textContent = String(totalItems);
+    checkoutSubtotal.textContent = formatPrice(subtotal);
+    summarySubtotal.textContent = formatPrice(subtotal);
+
+    checkoutItems.innerHTML = entries.length
+      ? entries.map(([productId, qty]) => {
+          const product = catalog.get(productId);
+          if (!product) return "";
+          return `
+            <div class="checkout-item">
+              <div>
+                <strong>${product.title}</strong>
+                <p>${product.category}</p>
+              </div>
+              <strong>${qty} x ${formatPrice(product.price)}</strong>
+            </div>
+          `;
+        }).join("")
+      : '<div class="empty-state"><strong>Your bag is empty.</strong><p>Add something from the catalog to begin checkout.</p></div>';
+  </script>
+</body>
+</html>
