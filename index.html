@@ -845,8 +845,8 @@
       border-radius: var(--radius-xl);
       overflow: hidden;
       background:
-        radial-gradient(circle at top, rgba(255, 255, 255, 0.8), transparent 36%),
-        linear-gradient(180deg, var(--hero-tone), rgba(234, 217, 197, 0.84));
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.84), transparent 32%),
+        linear-gradient(180deg, #f6e8da, rgba(234, 217, 197, 0.94));
       box-shadow: var(--shadow);
       isolation: isolate;
     }
@@ -901,6 +901,7 @@
 
     .hero-note,
     .hero-index,
+    .hero-floating-card,
     .hero-side-card,
     .entry-card,
     .product-card,
@@ -914,6 +915,17 @@
       backdrop-filter: blur(10px);
     }
 
+    .hero-note,
+    .hero-index,
+    .hero-floating-card,
+    .hero-side-card,
+    .hero-side-card.large {
+      background-color: rgba(251, 248, 242, 0.92);
+      border-color: rgba(42, 33, 26, 0.1);
+      box-shadow: 0 24px 48px rgba(61, 41, 28, 0.16);
+      backdrop-filter: blur(18px) saturate(120%);
+    }
+
     .hero-note {
       position: absolute;
       left: 1rem;
@@ -921,6 +933,51 @@
       max-width: 13rem;
       padding: 1rem;
       border-radius: 20px;
+    }
+
+    .hero-floating-card {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      width: min(18rem, calc(100% - 2rem));
+      padding: 1rem 1.05rem;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(251, 248, 242, 0.96), rgba(245, 236, 223, 0.98));
+      border: 1px solid rgba(42, 33, 26, 0.12);
+      box-shadow: 0 24px 42px rgba(61, 41, 28, 0.2);
+      animation: floatCard 7.2s ease-in-out infinite;
+    }
+
+    .hero-floating-card strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+      font-size: 1rem;
+    }
+
+    .hero-floating-card p {
+      margin-top: 0.65rem;
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+
+    .hero-floating-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.45rem;
+    }
+
+    .floating-pill {
+      padding: 0.38rem 0.58rem;
+      border-radius: 999px;
+      background: rgba(185, 138, 104, 0.12);
+      color: var(--ink);
+      border: 1px solid rgba(185, 138, 104, 0.16);
+      font-size: 0.74rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
     .hero-note strong,
@@ -944,7 +1001,7 @@
       top: 1rem;
       padding: 1rem;
       border-radius: 22px;
-      width: min(13.5rem, calc(100% - 3rem));
+      width: min(14.75rem, calc(100% - 3rem));
     }
 
     .hero-side {
@@ -963,7 +1020,7 @@
       display: grid;
       align-content: end;
       background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.76)),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(251, 248, 242, 0.92)),
         url("https://unsplash.com/photos/MOXm5jc8I0A/download?force=true&w=900&q=80") center/cover;
       color: var(--ink);
     }
@@ -971,6 +1028,35 @@
     .hero-side-card.large p {
       color: rgba(42, 33, 26, 0.82);
       max-width: 16rem;
+    }
+
+    .hero-side-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      width: fit-content;
+      padding: 0.42rem 0.72rem;
+      border-radius: 999px;
+      background: rgba(42, 33, 26, 0.08);
+      color: var(--ink);
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-side-points {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 0.75rem;
+    }
+
+    .hero-side-points div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(42, 33, 26, 0.08);
+      font-size: 0.92rem;
     }
 
     .hero-side-list {
@@ -985,6 +1071,17 @@
       padding-top: 0.85rem;
       border-top: 1px solid rgba(42, 33, 26, 0.08);
       font-size: 0.92rem;
+    }
+
+    @keyframes floatCard {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-9px);
+      }
     }
 
     .collections-grid {
@@ -2095,6 +2192,16 @@
               <strong>Signature Cut</strong>
               <p>Bias panels and floating dupatta layers create movement without losing waist definition.</p>
             </div>
+            <div class="hero-floating-card" aria-label="Style edit highlights">
+              <span class="meta-label">Style Edit</span>
+              <strong>Soft glamour for weddings, brunches, and everything in between.</strong>
+              <div class="hero-floating-tags">
+                <span class="floating-pill">Bridesmaid ready</span>
+                <span class="floating-pill">Haldi glow</span>
+                <span class="floating-pill">Soft glam</span>
+              </div>
+              <p>Looks that flatter beautifully, photograph well, and still feel effortless after hours.</p>
+            </div>
           </div>
 
           <aside class="hero-side" data-reveal>
@@ -2102,21 +2209,26 @@
               <span class="meta-label">Private Preview</span>
               <strong>Appointment-only rail</strong>
               <p>For wedding guests, sangeet hosts, and after-hours dressing that needs a softer kind of drama.</p>
+              <div class="hero-floating-tags" style="margin-top:0.9rem;">
+                <span class="floating-pill">Book a style call</span>
+                <span class="floating-pill">View the edit</span>
+              </div>
             </article>
             <article class="hero-side-card">
-              <strong>Why it feels expensive</strong>
-              <div class="hero-side-list">
+              <span class="hero-side-kicker">For Her Calendar</span>
+              <strong style="margin-top:0.75rem;">Dressing ideas women keep coming back for.</strong>
+              <div class="hero-side-points">
                 <div>
-                  <span>French seams and facings</span>
-                  <span>Inside finish</span>
+                  <span>Haldi and mehendi</span>
+                  <span>Light drape</span>
                 </div>
                 <div>
-                  <span>Measured drape placement</span>
-                  <span>Visual balance</span>
+                  <span>Sangeet and cocktail nights</span>
+                  <span>Statement sleeves</span>
                 </div>
                 <div>
-                  <span>Small-batch dye lots</span>
-                  <span>Less than 40 units</span>
+                  <span>Wedding guests and brunch dates</span>
+                  <span>Soft shimmer</span>
                 </div>
               </div>
             </article>
