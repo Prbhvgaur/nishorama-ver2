@@ -29,7 +29,7 @@
       --radius-lg: 24px;
       --radius-md: 18px;
       --radius-sm: 999px;
-      --max-width: 1440px;
+      --max-width: 1600px;
       --gutter: clamp(1rem, 2vw, 2rem);
       --section-space: clamp(4.5rem, 8vw, 8rem);
       --transition: 240ms ease;
@@ -116,7 +116,7 @@
     }
 
     .section {
-      width: min(calc(100% - 2rem), var(--max-width));
+      width: min(calc(100% - 1rem), var(--max-width));
       margin: 0 auto;
       padding: var(--section-space) 0;
     }
@@ -216,7 +216,7 @@
       position: sticky;
       top: 2.55rem;
       z-index: 80;
-      width: min(calc(100% - 2rem), var(--max-width));
+      width: min(calc(100% - 1rem), var(--max-width));
       margin: 1rem auto 0;
     }
 
@@ -393,7 +393,7 @@
     .site-panel {
       position: absolute;
       top: 7.25rem;
-      width: min(calc(100% - 2rem), 32rem);
+      width: min(calc(100% - 1rem), 32rem);
       background: rgba(251, 248, 242, 0.96);
       border: 1px solid rgba(42, 33, 26, 0.08);
       border-radius: 32px;
@@ -419,7 +419,7 @@
     .search-panel {
       left: 50%;
       transform: translate(-50%, -0.85rem) scale(0.98);
-      width: min(calc(100% - 2rem), 56rem);
+      width: min(calc(100% - 1rem), 56rem);
     }
 
     .search-panel.is-open {
@@ -1287,7 +1287,7 @@
     }
 
     .corridor-shell {
-      width: min(calc(100% - 2rem), var(--max-width));
+      width: min(calc(100% - 1rem), var(--max-width));
       margin: 0 auto;
       display: grid;
       grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
@@ -1449,7 +1449,7 @@
     }
 
     .lookbook-content {
-      width: min(calc(100% - 2rem), var(--max-width));
+      width: min(calc(100% - 1rem), var(--max-width));
       margin: 0 auto;
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.72fr);
@@ -1610,7 +1610,7 @@
     }
 
     .footer-shell {
-      width: min(calc(100% - 2rem), var(--max-width));
+      width: min(calc(100% - 1rem), var(--max-width));
       margin: 0 auto;
       padding: 1.4rem;
       border-radius: 30px;

@@ -104,18 +104,77 @@
     }
   ];
 
-  const namePrefixes = ["Ivory", "Rose", "Clay", "Noir", "Gilded"];
-  const nameSuffixes = {
-    "Kurti Sets": "Kurti Set",
-    "Corset Tops": "Corset Top",
-    "Dresses": "Drape Dress",
-    "Co-ords": "Co-ord Set",
-    "Sarees": "Saree",
-    "Anarkalis": "Anarkali",
-    "Lehenga Sets": "Lehenga Set",
-    "Sharara Sets": "Sharara Set",
-    "Fusion Sets": "Fusion Set",
-    "Occasion Jackets": "Occasion Jacket"
+  const productNamesByCategory = {
+    "Kurti Sets": [
+      "Amara Hand-Draped Kurti",
+      "Meher Pleat Kurti",
+      "Saanjh Mirror Kurti",
+      "Veda Panel Kurti",
+      "Riwaaz Column Kurti"
+    ],
+    "Corset Tops": [
+      "Vellore Silk Corset Top",
+      "Zuri Sculpted Corset",
+      "Astra Boned Corset",
+      "Nira Satin Corset",
+      "Elara Taper Corset"
+    ],
+    "Dresses": [
+      "Evara Drape Dress",
+      "Nayra Fluid Dress",
+      "Tara Moonline Dress",
+      "Selva Bias Dress",
+      "Aria Atelier Dress"
+    ],
+    "Co-ords": [
+      "Anvi Tailored Co-ord",
+      "Ishka Lounge Co-ord",
+      "Kaia Pleated Co-ord",
+      "Noor Atelier Co-ord",
+      "Riya Capsule Co-ord"
+    ],
+    "Sarees": [
+      "Sahana Zari Saree",
+      "Vanya Tissue Saree",
+      "Itra Light Saree",
+      "Leher Border Saree",
+      "Oorja Draped Saree"
+    ],
+    "Anarkalis": [
+      "Zaira Layered Anarkali",
+      "Iva Court Anarkali",
+      "Misha Flared Anarkali",
+      "Naila Veil Anarkali",
+      "Devika Whisper Anarkali"
+    ],
+    "Lehenga Sets": [
+      "Roshni Festival Lehenga",
+      "Tania Mirror Lehenga",
+      "Kaira Thread Lehenga",
+      "Alina Grand Lehenga",
+      "Vedika Bloom Lehenga"
+    ],
+    "Sharara Sets": [
+      "Pari Straight Sharara",
+      "Jahan Panel Sharara",
+      "Rumi Silk Sharara",
+      "Aalia Ember Sharara",
+      "Sorel Fluted Sharara"
+    ],
+    "Fusion Sets": [
+      "Ira City Fusion Set",
+      "Myra Frame Fusion Set",
+      "Tara Slub Fusion Set",
+      "Noora Halo Fusion Set",
+      "Saumya Cross Fusion Set"
+    ],
+    "Occasion Jackets": [
+      "Noor Brocade Jacket",
+      "Diya Cropped Jacket",
+      "Aanya Embroidered Jacket",
+      "Mahi Velvet Jacket",
+      "Kalya Statement Jacket"
+    ]
   };
 
   const notes = [
@@ -142,10 +201,10 @@
     Party: ["Party", "Cocktail"]
   };
 
-  const products = categorySpecs.flatMap((category, categoryIndex) =>
-    namePrefixes.map((prefix, index) => {
+  const products = categorySpecs.flatMap((category, categoryIndex) => {
+    const names = productNamesByCategory[category.label] || [];
+    return names.map((title, index) => {
       const id = `${category.slug}-${index + 1}`;
-      const title = `${prefix} ${nameSuffixes[category.label]}`;
       const price = category.base + (index * 650) + (categoryIndex * 140);
       const primaryMaterial = category.materials[index % category.materials.length];
       const primaryColor = category.colors[index % category.colors.length];
@@ -187,8 +246,8 @@
         popularity,
         newness: 100 - (index * 3) - categoryIndex,
       };
-    })
-  );
+    });
+  });
 
   const productMap = new Map(products.map((product) => [product.id, product]));
   const categoryMap = new Map(categorySpecs.map((category) => [category.slug, category]));

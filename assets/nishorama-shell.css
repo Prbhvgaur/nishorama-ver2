@@ -18,7 +18,7 @@
   --radius-lg: 24px;
   --radius-md: 18px;
   --radius-sm: 999px;
-  --max-width: 1440px;
+  --max-width: 1600px;
   --gutter: clamp(1rem, 2vw, 2rem);
   --section-space: clamp(3.5rem, 6vw, 6rem);
   --transition: 240ms ease;
@@ -106,7 +106,7 @@ button {
 
 .section,
 .wrap {
-  width: min(calc(100% - 2rem), var(--max-width));
+  width: min(calc(100% - 1rem), var(--max-width));
   margin: 0 auto;
 }
 
@@ -208,7 +208,7 @@ p {
   position: sticky;
   top: 2.55rem;
   z-index: 80;
-  width: min(calc(100% - 2rem), var(--max-width));
+  width: min(calc(100% - 1rem), var(--max-width));
   margin: 1rem auto 0;
 }
 
@@ -580,8 +580,8 @@ p {
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
 }
 
 .product-card,
@@ -589,9 +589,9 @@ p {
 .order-card {
   position: relative;
   display: grid;
-  gap: 0.95rem;
-  padding: 1rem;
-  border-radius: 28px;
+  gap: 1.05rem;
+  padding: 1.1rem;
+  border-radius: 30px;
   overflow: hidden;
 }
 
@@ -632,7 +632,7 @@ p {
   position: relative;
   border-radius: 22px;
   overflow: hidden;
-  aspect-ratio: 0.82;
+  aspect-ratio: 0.94;
   background: #ead9c5;
 }
 
@@ -699,7 +699,7 @@ p {
   position: fixed;
   left: 50%;
   bottom: 1.2rem;
-  width: min(calc(100% - 2rem), 34rem);
+  width: min(calc(100% - 1rem), 34rem);
   transform: translateX(-50%) translateY(1rem);
   z-index: 90;
   opacity: 0;
@@ -795,7 +795,7 @@ p {
 .search-overlay-panel {
   position: absolute;
   top: 7.25rem;
-  width: min(calc(100% - 2rem), 34rem);
+  width: min(calc(100% - 1rem), 34rem);
   max-height: calc(100vh - 8rem);
   overflow: auto;
   padding: 1.2rem;
@@ -815,7 +815,7 @@ p {
 
 .search-overlay-panel {
   left: 50%;
-  width: min(calc(100% - 2rem), 64rem);
+  width: min(calc(100% - 1rem), 66rem);
   transform: translate(-50%, -0.85rem) scale(0.98);
 }
 
@@ -954,8 +954,8 @@ p {
 
 .filter-layout {
   display: grid;
-  grid-template-columns: 22rem minmax(0, 1fr);
-  gap: 1rem;
+  grid-template-columns: minmax(19rem, 21rem) minmax(0, 1fr);
+  gap: 1.25rem;
   align-items: start;
 }
 
@@ -965,7 +965,7 @@ p {
 }
 
 .filter-group {
-  padding: 0.8rem 0;
+  padding: 0.9rem 0;
   border-top: 1px solid rgba(42, 33, 26, 0.08);
 }
 
@@ -974,7 +974,7 @@ p {
   cursor: pointer;
   font-family: "Bodoni Moda", serif;
   font-size: 1.25rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.9rem;
 }
 
 .filter-group summary::-webkit-details-marker {
@@ -999,6 +999,8 @@ p {
 .filter-option {
   color: var(--muted);
   font-size: 0.92rem;
+  justify-content: space-between;
+  padding: 0.2rem 0;
 }
 
 .swatch-grid {
@@ -1142,7 +1144,7 @@ p {
 }
 
 .footer-shell {
-  width: min(calc(100% - 2rem), var(--max-width));
+  width: min(calc(100% - 1rem), var(--max-width));
   margin: 0 auto;
   padding: 1.4rem;
   border-radius: 30px;
