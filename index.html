@@ -1920,6 +1920,12 @@
               <path d="M20 20l-3.5-3.5"></path>
             </svg>
           </button>
+          <button class="tool-button" id="wishlistToggle" type="button" aria-label="Open wishlist" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 21s-7.5-4.7-7.5-10.7A4.7 4.7 0 0 1 9.2 5.6 4.9 4.9 0 0 1 12 7.2a4.9 4.9 0 0 1 2.8-1.6 4.7 4.7 0 0 1 4.7 4.7C19.5 16.3 12 21 12 21Z"></path>
+            </svg>
+            <span class="bag-count" id="wishlistCount" aria-live="polite">0</span>
+          </button>
           <button class="tool-button" id="accountToggle" type="button" aria-label="Open account and concierge" aria-expanded="false" aria-controls="accountPanel">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
               <circle cx="12" cy="8" r="3.25"></circle>
@@ -2864,6 +2870,7 @@
 
     const panelButtons = {
       search: document.getElementById("searchToggle"),
+      wishlist: document.getElementById("wishlistToggle"),
       account: document.getElementById("accountToggle"),
       bag: document.getElementById("bagToggle")
     };
@@ -2877,6 +2884,7 @@
     const formatPrice = (value) => `INR ${Number(value).toLocaleString("en-IN")}`;
     const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
     const cartStorageKey = "nishorama-cart-v2";
+    const wishlistStorageKey = "nishorama-wishlist-v2";
     const authStorageKey = "nishorama-auth-v1";
 
     let activePanel = null;
@@ -2891,6 +2899,7 @@
       }
     };
     const cart = new Map(loadJson(cartStorageKey, []));
+    const wishlist = new Set(loadJson(wishlistStorageKey, []));
     let authUser = loadJson(authStorageKey, null);
 
     const productCatalog = productCards.map((card, index) => {
@@ -2900,9 +2909,13 @@
       const tags = Array.from(card.querySelectorAll(".fabric-tag")).map((tag) => tag.textContent.trim());
       const cardId = `product-${slugify(title)}-${index + 1}`;
       const quickAddButton = card.querySelector(".quick-add");
+      const wishlistButton = card.querySelector(".wishlist");
       card.id = cardId;
       if (quickAddButton) {
         quickAddButton.dataset.productId = cardId;
+      }
+      if (wishlistButton) {
+        wishlistButton.dataset.productId = cardId;
       }
       return {
         id: cardId,
@@ -2914,6 +2927,7 @@
         tags,
         image: card.querySelector("img")?.src || "",
         quickAddButton,
+        wishlistButton,
         card
       };
     });
@@ -2934,6 +2948,7 @@
 
     const saveState = () => {
       localStorage.setItem(cartStorageKey, JSON.stringify(Array.from(cart.entries())));
+      localStorage.setItem(wishlistStorageKey, JSON.stringify(Array.from(wishlist)));
       localStorage.setItem(authStorageKey, JSON.stringify(authUser));
     };
 
@@ -2966,6 +2981,13 @@
       `;
     };
 
+    const updateWishlistCount = () => {
+      const wishlistCount = document.getElementById("wishlistCount");
+      if (wishlistCount) {
+        wishlistCount.textContent = String(wishlist.size);
+      }
+    };
+
     const setHeaderState = () => {
       if (!siteHeader) {
         return;
@@ -2996,9 +3018,20 @@
     });
 
     document.querySelectorAll(".wishlist").forEach((button) => {
+      const productId = button.dataset.productId;
+      button.setAttribute("aria-pressed", String(productId ? wishlist.has(productId) : button.getAttribute("aria-pressed") === "true"));
       button.addEventListener("click", () => {
         const next = button.getAttribute("aria-pressed") !== "true";
         button.setAttribute("aria-pressed", String(next));
+        if (productId) {
+          if (next) {
+            wishlist.add(productId);
+          } else {
+            wishlist.delete(productId);
+          }
+          updateWishlistCount();
+          saveState();
+        }
         showToast(next ? "Saved to your Nishorama wishlist." : "Removed from your wishlist.");
       });
     });
@@ -3139,6 +3172,7 @@
     const syncCartUI = () => {
       productCatalog.forEach((product) => updateQuickAddButton(product.id));
       updateBagCount();
+      updateWishlistCount();
       renderBag();
       saveState();
     };
@@ -3423,6 +3457,12 @@
         renderAccountCard();
         saveState();
         showToast("Demo profile created.");
+      });
+    }
+
+    if (panelButtons.wishlist) {
+      panelButtons.wishlist.addEventListener("click", () => {
+        window.location.href = "wishlist.html";
       });
     }
 

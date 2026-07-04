@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nishorama | Wishlist</title>
+  <meta name="description" content="Save Nishorama pieces to your wishlist and move them into the bag later.">
+  <link rel="stylesheet" href="assets/nishorama-shell.css">
+</head>
+<body data-page="wishlist">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="announcement" aria-label="Announcement bar">
+    <div class="announcement-track" aria-hidden="true">
+      <span>Wishlist | Session-persistent saves with move-to-bag support</span>
+      <span>Your shortlist follows you through the catalog and PDP</span>
+      <span>Remove or move pieces without leaving the page</span>
+      <span>Wishlist | Session-persistent saves with move-to-bag support</span>
+      <span>Your shortlist follows you through the catalog and PDP</span>
+      <span>Remove or move pieces without leaving the page</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="nav-shell">
+      <a class="brand" href="index.html">Nishorama</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="categories.html">Categories</a>
+        <a class="nav-link" href="orders.html">Orders</a>
+      </nav>
+      <div class="nav-actions" aria-label="Shopping tools">
+        <button class="tool-button" id="searchToggle" type="button" aria-label="Open search">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="M20 20l-3.5-3.5"></path>
+          </svg>
+        </button>
+        <button class="tool-button" id="bagToggle" type="button" aria-label="Open bag" aria-expanded="false" aria-controls="bagPanel">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M7 9V7.4A4.6 4.6 0 0 1 11.6 3h.8A4.6 4.6 0 0 1 17 7.4V9"></path>
+            <path d="M5 9h14l-1 11H6L5 9z"></path>
+          </svg>
+          <span class="bag-count" id="bagCount" aria-live="polite">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <div class="wrap section-head">
+        <div>
+          <span class="eyebrow">Wishlist</span>
+          <h1>Your shortlist, saved for later.</h1>
+        </div>
+        <p>Collect your favorite silhouettes here, then move them straight to the bag when you are ready to buy.</p>
+      </div>
+      <div class="wrap">
+        <div id="wishlistRoot"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="drawer-layer" id="bagLayer" hidden>
+    <button class="drawer-backdrop" id="bagBackdrop" type="button" aria-label="Close bag drawer"></button>
+    <aside class="drawer" id="bagPanel" role="dialog" aria-modal="true" aria-labelledby="bagTitle" hidden>
+      <div class="drawer-head">
+        <div>
+          <span class="eyebrow">Shopping Bag</span>
+          <h3 id="bagTitle">Your edits, carried across the site.</h3>
+          <p>Quantity changes stay in sync while you move between categories and product pages.</p>
+        </div>
+        <button class="close-button" id="closeBag" type="button" aria-label="Close bag drawer">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 6l12 12"></path>
+            <path d="M18 6L6 18"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="bagContent" aria-live="polite"></div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-shell">
+      <div class="footer-top">
+        <a class="brand" href="index.html">Nishorama</a>
+        <div class="panel-actions">
+          <a class="button secondary" href="categories.html">Continue Shopping</a>
+          <a class="button primary" href="orders.html">Orders</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Wishlist demo for Nishorama.</span>
+        <span>Saved pieces stay available during the session.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/nishorama-data.js"></script>
+  <script src="assets/nishorama-runtime.js"></script>
+</body>
+</html>
