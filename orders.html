@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nishorama | Orders</title>
+  <meta name="description" content="Nishorama order history with sample demo orders, tracking links, and contact/report actions.">
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap");
+
+    :root {
+      --bg: #f8f3ea;
+      --bg-soft: #fbf8f2;
+      --ink: #2a211a;
+      --muted: #6f6258;
+      --line: rgba(42, 33, 26, 0.1);
+      --shadow: 0 22px 60px rgba(59, 40, 25, 0.12);
+      --shadow-soft: 0 14px 36px rgba(59, 40, 25, 0.08);
+      --max-width: 1440px;
+      --radius-xl: 36px;
+      --transition: 220ms ease;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Instrument Sans", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(209, 173, 119, 0.16), transparent 28%),
+        radial-gradient(circle at 90% 14%, rgba(185, 138, 104, 0.12), transparent 24%),
+        linear-gradient(180deg, #fbf8f2 0%, #f8f3ea 36%, #f1e7d8 100%);
+      color: var(--ink);
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; border: 0; background: none; color: inherit; }
+    :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+    .skip-link {
+      position: absolute;
+      top: -3rem;
+      left: 1rem;
+      z-index: 100;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--bg-soft);
+      transition: top var(--transition);
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .eyebrow::before {
+      content: "";
+      width: 1.25rem;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1, h2, h3 {
+      font-family: "Bodoni Moda", serif;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin: 0;
+    }
+    h1 { font-size: clamp(3rem, 9vw, 6.8rem); }
+    h2 { font-size: clamp(2.2rem, 5vw, 4rem); }
+    h3 { font-size: clamp(1.2rem, 2vw, 1.55rem); }
+    p { margin: 0; color: var(--muted); line-height: 1.7; }
+
+    .wrap {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .announcement {
+      background: rgba(42, 33, 26, 0.96);
+      color: #f8f3ea;
+      overflow: hidden;
+    }
+    .announcement-track {
+      display: flex;
+      gap: 2.5rem;
+      white-space: nowrap;
+      padding: 0.8rem 0;
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      animation: ticker 22s linear infinite;
+    }
+    .announcement-track span { flex: none; }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding: 1rem 0 0;
+    }
+    .nav-shell {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1rem 1.2rem;
+      background: rgba(251, 248, 242, 0.78);
+      backdrop-filter: blur(18px);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      border-radius: 999px;
+      box-shadow: var(--shadow-soft);
+    }
+    .brand {
+      font-family: "Bodoni Moda", serif;
+      font-size: 1.8rem;
+      letter-spacing: -0.04em;
+    }
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.15rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+      flex-wrap: wrap;
+    }
+    .nav-link { position: relative; padding: 0.3rem 0; }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--ink);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .nav-link:hover::after, .nav-link:focus-visible::after, .nav-link.is-active::after { transform: scaleX(1); }
+    .nav-link.is-active { color: var(--ink); }
+
+    .hero { padding: clamp(2rem, 4vw, 3rem) 0; }
+    .hero-shell {
+      padding: clamp(1.5rem, 3vw, 2.5rem);
+      border-radius: calc(var(--radius-xl) + 6px);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.28)),
+        linear-gradient(135deg, rgba(217, 183, 158, 0.35), rgba(248, 243, 234, 0.7));
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.75fr);
+      gap: 1rem;
+      align-items: end;
+    }
+    .hero-copy p { max-width: 40rem; margin-top: 1rem; font-size: 1.02rem; }
+    .hero-meta {
+      display: grid;
+      gap: 0.85rem;
+    }
+    .meta-card {
+      padding: 1rem 1.1rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+    }
+    .meta-card strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+      font-size: 1.35rem;
+    }
+
+    .section {
+      padding: clamp(2rem, 4vw, 3rem) 0;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+      margin-bottom: 1.2rem;
+    }
+    .section-head p {
+      max-width: 34rem;
+      text-align: right;
+    }
+
+    .orders-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .order-card {
+      padding: 1.2rem;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: start;
+      margin-bottom: 0.9rem;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(42, 33, 26, 0.06);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      color: var(--ink);
+    }
+    .status.ongoing { background: rgba(185, 138, 104, 0.16); }
+    .order-meta {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .order-meta div {
+      padding: 0.9rem;
+      border-radius: 20px;
+      background: rgba(42, 33, 26, 0.04);
+      border: 1px solid rgba(42, 33, 26, 0.06);
+    }
+    .order-meta span { display: block; color: var(--muted); font-size: 0.82rem; }
+    .order-meta strong { display: block; color: var(--ink); margin-top: 0.2rem; }
+    .order-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+    .button, .link-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.92rem 1.2rem;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    }
+    .button:hover, .link-button:hover { transform: translateY(-2px); border-color: rgba(42, 33, 26, 0.18); }
+    .button.primary { background: var(--ink); color: var(--bg-soft); border-color: var(--ink); }
+    .button.secondary { background: rgba(255, 255, 255, 0.66); }
+
+    .tracking {
+      padding: 1.2rem;
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.66);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+    .timeline {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .timeline-step {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(42, 33, 26, 0.08);
+      color: var(--muted);
+    }
+    .timeline-step strong { color: var(--ink); }
+
+    .footer {
+      margin-top: 1rem;
+      padding: 0 0 2rem;
+    }
+    .footer-shell {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin: 0 auto;
+      padding: 1.4rem;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.54);
+      border: 1px solid rgba(42, 33, 26, 0.08);
+      box-shadow: var(--shadow-soft);
+    }
+    .footer-top, .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+    }
+    .footer-top {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(42, 33, 26, 0.08);
+      margin-bottom: 1rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr;
+      gap: 1rem;
+    }
+    .footer-column {
+      display: grid;
+      gap: 0.6rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .footer-column strong { color: var(--ink); }
+    .footer-bottom {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(42, 33, 26, 0.08);
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .hero-shell, .section-head { grid-template-columns: 1fr; display: grid; }
+      .section-head p { text-align: left; }
+      .order-meta, .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 720px) {
+      .wrap { width: min(calc(100% - 1rem), var(--max-width)); }
+      .nav-shell { grid-template-columns: auto 1fr; }
+      .nav-links { display: none; }
+      .order-meta, .footer-grid { grid-template-columns: 1fr; }
+      h1 { font-size: clamp(2.4rem, 16vw, 4rem); }
+      h2 { font-size: clamp(2rem, 10vw, 2.8rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="announcement" aria-label="Announcement bar">
+    <div class="announcement-track" aria-hidden="true">
+      <span>Orders | Live demo history with sample tracking states</span>
+      <span>Contact or report an issue from each order card</span>
+      <span>Delivered orders remain visible without tracking links</span>
+      <span>Orders | Live demo history with sample tracking states</span>
+      <span>Contact or report an issue from each order card</span>
+      <span>Delivered orders remain visible without tracking links</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrap nav-shell">
+      <a class="brand" href="index.html">Nishorama</a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="categories.html">Categories</a>
+        <a class="nav-link is-active" href="orders.html">Orders</a>
+      </nav>
+      <a class="button secondary" href="categories.html">Continue Shopping</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap hero-shell">
+        <div class="hero-copy">
+          <span class="eyebrow">Orders</span>
+          <h1>Order history with real demo states.</h1>
+          <p>Use this page for tracking, issue reporting, and simple status review. Ongoing orders include a track link, while delivered orders just show their completed status.</p>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-card">
+            <strong>3</strong>
+            <span>sample orders in the history</span>
+          </div>
+          <div class="meta-card">
+            <strong>2</strong>
+            <span>ongoing orders with track links</span>
+          </div>
+          <div class="meta-card">
+            <strong>1</strong>
+            <span>delivered order for completion state</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap section-head">
+        <div>
+          <span class="eyebrow">Order History</span>
+          <h2>Your recent Nishorama orders.</h2>
+        </div>
+        <p>Tap Contact/Report for sizing or delivery issues. Ongoing orders include tracking while delivered orders remain status-only.</p>
+      </div>
+
+      <div class="wrap orders-grid">
+        <article class="order-card">
+          <div class="order-top">
+            <div>
+              <span class="meta-label">NR-24018</span>
+              <h3>Pearl Veil Co-ord</h3>
+            </div>
+            <span class="status ongoing">In Transit</span>
+          </div>
+          <div class="order-meta">
+            <div><span>Date</span><strong>July 2, 2026</strong></div>
+            <div><span>Total</span><strong>INR 11,400</strong></div>
+            <div><span>Items</span><strong>1 set</strong></div>
+            <div><span>Status</span><strong>Moving</strong></div>
+          </div>
+          <div class="order-actions">
+            <a class="button primary" href="mailto:hello@nishorama.house?subject=Order%20Issue%20-%20NR-24018">Contact / Report</a>
+            <a class="button secondary" href="#tracking">Track Order</a>
+          </div>
+        </article>
+
+        <article class="order-card">
+          <div class="order-top">
+            <div>
+              <span class="meta-label">NR-24009</span>
+              <h3>Moonlit Kurta Set</h3>
+            </div>
+            <span class="status ongoing">Processing</span>
+          </div>
+          <div class="order-meta">
+            <div><span>Date</span><strong>July 1, 2026</strong></div>
+            <div><span>Total</span><strong>INR 12,800</strong></div>
+            <div><span>Items</span><strong>2 pieces</strong></div>
+            <div><span>Status</span><strong>Packed</strong></div>
+          </div>
+          <div class="order-actions">
+            <a class="button primary" href="mailto:hello@nishorama.house?subject=Order%20Issue%20-%20NR-24009">Contact / Report</a>
+            <a class="button secondary" href="#tracking">Track Order</a>
+          </div>
+        </article>
+
+        <article class="order-card">
+          <div class="order-top">
+            <div>
+              <span class="meta-label">NR-23971</span>
+              <h3>Ivory Procession Dress</h3>
+            </div>
+            <span class="status">Delivered</span>
+          </div>
+          <div class="order-meta">
+            <div><span>Date</span><strong>June 28, 2026</strong></div>
+            <div><span>Total</span><strong>INR 11,900</strong></div>
+            <div><span>Items</span><strong>1 dress</strong></div>
+            <div><span>Status</span><strong>Completed</strong></div>
+          </div>
+          <div class="order-actions">
+            <a class="button primary" href="mailto:hello@nishorama.house?subject=Order%20Issue%20-%20NR-23971">Contact / Report</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="tracking">
+      <div class="wrap section-head">
+        <div>
+          <span class="eyebrow">Tracking</span>
+          <h2>Track the orders that are still moving.</h2>
+        </div>
+        <p>This section gives the track links a concrete destination so the order flow feels intentional even in a demo.</p>
+      </div>
+
+      <div class="wrap tracking">
+        <span class="meta-label">Tracking Snapshot</span>
+        <div class="timeline">
+          <div class="timeline-step">
+            <strong>Processing</strong>
+            <span>Warehouse received and quality checked</span>
+          </div>
+          <div class="timeline-step">
+            <strong>In Transit</strong>
+            <span>On its way to the delivery city</span>
+          </div>
+          <div class="timeline-step">
+            <strong>Delivered</strong>
+            <span>Completed orders close out here</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-shell">
+      <div class="footer-top">
+        <a class="brand" href="index.html">Nishorama</a>
+        <div class="panel-actions">
+          <a class="button secondary" href="index.html">Home</a>
+          <a class="button primary" href="categories.html">Categories</a>
+        </div>
+      </div>
+      <div class="footer-grid">
+        <div class="footer-column">
+          <strong>Service</strong>
+          <span>Demo orders, contact actions, and simple track links.</span>
+        </div>
+        <div class="footer-column">
+          <strong>Shop</strong>
+          <a href="categories.html#category-kurti-sets">Kurti Sets</a>
+          <a href="categories.html#category-dresses">Dresses</a>
+          <a href="categories.html#category-co-ords">Co-ords</a>
+        </div>
+        <div class="footer-column">
+          <strong>Support</strong>
+          <a href="mailto:hello@nishorama.house">Contact</a>
+          <a href="index.html#newsletter">Newsletter</a>
+        </div>
+        <div class="footer-column">
+          <strong>Contact</strong>
+          <span>hello@nishorama.house</span>
+          <span>Mumbai, India</span>
+          <span>Mon-Sat | 11:00 - 19:00</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Nishorama orders page demo.</span>
+        <span>Contact / report and track states included.</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

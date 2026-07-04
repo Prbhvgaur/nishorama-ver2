@@ -5,13 +5,13 @@ A single-file premium storefront concept for Nishorama, built as a self-containe
 ## What’s inside
 
 - Editorial hero with luxury typography and warm beige palette
-- Working header actions for search, concierge/account, and bag
-- Collection entry cards and two full product grids
-- Search overlay with live filtering
-- Bag drawer with quantity controls and cart subtotal
-- Account/concierge drawer with appointment and support states
+- Separate `categories.html` catalog page with 10 product families and 50 demo items
+- Separate `orders.html` history page with track/report actions
+- Working header actions for search, account, and bag
+- Quantity-aware cart with subtotal and persistence across pages
+- Account drawer with a simple sign-in demo state
 - Signature scroll interaction: the Drape Corridor
-- Newsletter capture, trust strip, and full footer
+- Newsletter capture, trust strip, and cleaned-up footer
 
 ## How to run
 
@@ -27,9 +27,14 @@ Then visit:
 http://127.0.0.1:4173/index.html
 ```
 
+You can also open:
+
+- `categories.html` for the full catalog
+- `orders.html` for the order history demo
+
 ## Notes
 
 - The layout is designed to work on desktop and mobile.
 - The page respects reduced-motion preferences.
 - Product images and type styling use live remote assets, so an internet connection is recommended for the best visual match.
-
+- Cart and account state persist in the browser via local storage.

@@ -1908,8 +1908,9 @@
         <nav class="nav-links" aria-label="Primary navigation">
           <a class="nav-link" href="#collections">Collections</a>
           <a class="nav-link" href="#new-arrivals">New Arrivals</a>
-          <a class="nav-link" href="#drape-corridor">Drape Corridor</a>
+          <a class="nav-link" href="categories.html">Categories</a>
           <a class="nav-link" href="#bestsellers">Bestsellers</a>
+          <a class="nav-link" href="orders.html">Orders</a>
           <a class="nav-link" href="#journal">Journal</a>
         </nav>
         <div class="nav-tools" aria-label="Shopping tools">
@@ -1945,8 +1946,9 @@
         <nav aria-label="Mobile navigation">
           <a href="#collections">Collections</a>
           <a href="#new-arrivals">New Arrivals</a>
-          <a href="#drape-corridor">Drape Corridor</a>
+          <a href="categories.html">Categories</a>
           <a href="#bestsellers">Bestsellers</a>
+          <a href="orders.html">Orders</a>
           <a href="#journal">Journal</a>
         </nav>
       </div>
@@ -2003,8 +2005,8 @@
         <div class="panel-head">
           <div>
             <span class="eyebrow">Account + Concierge</span>
-            <h3 id="accountPanelTitle">Service built around the event, not only the order.</h3>
-            <p>Use the demo flows below to move into appointments, fit help, or post-purchase guidance.</p>
+            <h3 id="accountPanelTitle">A clean account view for the demo store.</h3>
+            <p>Sign in to preview the account state or jump straight to orders.</p>
           </div>
           <button class="panel-close" type="button" data-close-panel aria-label="Close account panel">
             <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -2013,56 +2015,12 @@
             </svg>
           </button>
         </div>
-        <div class="account-tabs">
-          <div class="account-tab-row" role="tablist" aria-label="Account services">
-            <button class="account-tab is-active" type="button" role="tab" aria-selected="true" data-account-tab="appointments">Appointments</button>
-            <button class="account-tab" type="button" role="tab" aria-selected="false" data-account-tab="rewards">House Benefits</button>
-            <button class="account-tab" type="button" role="tab" aria-selected="false" data-account-tab="support">Order Help</button>
-          </div>
-
-          <div class="account-pane is-active" data-account-pane="appointments">
-            <div class="account-service">
-              <span class="meta-label">Atelier Preview</span>
-              <p>Reserve a private rail preview for wedding-guest dressing, reception edits, or a size consultation with the Mumbai team.</p>
-              <div class="account-actions">
-                <button class="button primary" type="button" data-scroll-target="#newsletter">Book Appointment</button>
-                <button class="button ghost" type="button" data-open-panel="search">Browse Before Booking</button>
-              </div>
-            </div>
-            <ul class="benefit-list">
-              <li><span>In-person fittings</span> <strong>Mumbai appointments</strong></li>
-              <li><span>WhatsApp styling board</span> <strong>Before purchase</strong></li>
-              <li><span>Event-specific edits</span> <strong>Curated rail options</strong></li>
-            </ul>
-          </div>
-
-          <div class="account-pane" data-account-pane="rewards">
-            <div class="account-service">
-              <span class="meta-label">House Circle</span>
-              <p>Returning clients unlock first-access drops, stored measurements, and quicker restock alerts for limited-run silhouettes.</p>
-            </div>
-            <ul class="benefit-list">
-              <li><span>Stored size notes</span> <strong>Faster repeat ordering</strong></li>
-              <li><span>Early capsule access</span> <strong>24 hours before launch</strong></li>
-              <li><span>Gift-wrap priority</span> <strong>Complimentary on occasionwear</strong></li>
-            </ul>
-          </div>
-
-          <div class="account-pane" data-account-pane="support">
-            <div class="account-service">
-              <span class="meta-label">Order Support</span>
-              <p>Track dispatch readiness, request alternate sizing advice, or open a same-day concierge note for time-sensitive events.</p>
-              <div class="account-actions">
-                <button class="button primary" type="button" data-scroll-target="#newsletter">Request Help</button>
-                <button class="button ghost" type="button" data-open-panel="bag">Review Bag</button>
-              </div>
-            </div>
-            <ul class="benefit-list">
-              <li><span>Dispatch updates</span> <strong>Within 48 hours</strong></li>
-              <li><span>Return guidance</span> <strong>Eligible within 7 days</strong></li>
-              <li><span>Gift routing</span> <strong>Box notes and wrap details</strong></li>
-            </ul>
-          </div>
+        <div class="account-service" id="accountCard"></div>
+        <div class="account-actions">
+          <button class="button primary" type="button" id="accountLoginBtn">Login</button>
+          <button class="button ghost" type="button" id="accountSignupBtn">Sign Up</button>
+          <a class="button secondary" href="orders.html">Orders</a>
+          <button class="button ghost" type="button" data-open-panel="bag">Review Bag</button>
         </div>
       </section>
 
@@ -2856,7 +2814,7 @@
           </div>
           <div class="footer-column">
             <strong>Support</strong>
-            <a href="#newsletter">Appointments</a>
+            <a href="orders.html">Orders</a>
             <a href="#newsletter">Size Help</a>
             <a href="#newsletter">Shipping</a>
             <a href="#newsletter">Returns</a>
@@ -2870,7 +2828,6 @@
         </div>
         <div class="footer-bottom">
           <span>Copyright 2026 Nishorama. Demo storefront concept.</span>
-          <span>Built as one self-contained HTML file with inline CSS and JavaScript.</span>
         </div>
       </div>
     </footer>
@@ -2901,6 +2858,9 @@
     const navLinks = document.querySelectorAll(".nav-link");
     const productCards = Array.from(document.querySelectorAll(".product-card"));
     const filterButtons = searchFilters ? Array.from(searchFilters.querySelectorAll(".filter-chip")) : [];
+    const accountCard = document.getElementById("accountCard");
+    const accountLoginBtn = document.getElementById("accountLoginBtn");
+    const accountSignupBtn = document.getElementById("accountSignupBtn");
 
     const panelButtons = {
       search: document.getElementById("searchToggle"),
@@ -2916,11 +2876,22 @@
 
     const formatPrice = (value) => `INR ${Number(value).toLocaleString("en-IN")}`;
     const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const cartStorageKey = "nishorama-cart-v2";
+    const authStorageKey = "nishorama-auth-v1";
 
     let activePanel = null;
     let activeFilter = "all";
     let toastTimer = null;
-    const cart = new Map();
+    const loadJson = (key, fallback) => {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch {
+        return fallback;
+      }
+    };
+    const cart = new Map(loadJson(cartStorageKey, []));
+    let authUser = loadJson(authStorageKey, null);
 
     const productCatalog = productCards.map((card, index) => {
       const title = card.querySelector("h3").textContent.trim();
@@ -2959,6 +2930,40 @@
       toastTimer = window.setTimeout(() => {
         toast.classList.remove("is-visible");
       }, 2200);
+    };
+
+    const saveState = () => {
+      localStorage.setItem(cartStorageKey, JSON.stringify(Array.from(cart.entries())));
+      localStorage.setItem(authStorageKey, JSON.stringify(authUser));
+    };
+
+    const renderAccountCard = () => {
+      if (!accountCard) {
+        return;
+      }
+
+      if (authUser) {
+        accountCard.innerHTML = `
+          <div class="account-state">
+            <span class="meta-label">Signed In</span>
+            <strong>${authUser.name}</strong>
+            <p>${authUser.email}</p>
+          </div>
+          <div class="search-result-actions">
+            <button class="button ghost" type="button" data-account-action="signout">Sign Out</button>
+            <a class="button secondary" href="orders.html">View Orders</a>
+          </div>
+        `;
+        return;
+      }
+
+      accountCard.innerHTML = `
+        <div class="account-state">
+          <span class="meta-label">Guest Account</span>
+          <strong>Login or create your demo profile.</strong>
+          <p>Use the buttons below to preview a signed-in account state with saved details.</p>
+        </div>
+      `;
     };
 
     const setHeaderState = () => {
@@ -3014,9 +3019,9 @@
       if (!product || !product.quickAddButton) {
         return;
       }
-      const isInCart = cart.has(productId);
-      product.quickAddButton.dataset.added = String(isInCart);
-      product.quickAddButton.textContent = isInCart ? "Added" : "Quick Add";
+      const quantity = cart.get(productId) || 0;
+      product.quickAddButton.dataset.added = String(quantity > 0);
+      product.quickAddButton.textContent = quantity > 0 ? `Add Another (${quantity})` : "Quick Add";
     };
 
     const updateBagCount = () => {
@@ -3135,6 +3140,7 @@
       productCatalog.forEach((product) => updateQuickAddButton(product.id));
       updateBagCount();
       renderBag();
+      saveState();
     };
 
     const setCartQuantity = (productId, quantity) => {
@@ -3146,19 +3152,13 @@
       syncCartUI();
     };
 
-    const toggleCartItem = (productId, forceState) => {
+    const addCartItem = (productId, delta = 1) => {
       const product = productLookup.get(productId);
       if (!product) {
         return;
       }
-      const shouldAdd = typeof forceState === "boolean" ? forceState : !cart.has(productId);
-      if (shouldAdd) {
-        cart.set(productId, (cart.get(productId) || 0) + 1);
-        showToast(`${product.title} added to your bag.`);
-      } else {
-        cart.delete(productId);
-        showToast(`${product.title} removed from your bag.`);
-      }
+      cart.set(productId, (cart.get(productId) || 0) + delta);
+      showToast(`${product.title} added to your bag.`);
       syncCartUI();
     };
 
@@ -3212,7 +3212,7 @@
           </div>
           <div class="search-result-actions">
             <button class="button primary" type="button" data-search-jump="${product.id}">View Look</button>
-            <button class="button ghost" type="button" data-search-add="${product.id}">${cart.has(product.id) ? "Remove From Bag" : "Add To Bag"}</button>
+            <button class="button ghost" type="button" data-search-add="${product.id}">${(cart.get(product.id) || 0) > 0 ? "Add Another" : "Add To Bag"}</button>
           </div>
         </article>
       `).join("");
@@ -3336,7 +3336,7 @@
       }
 
       if (addId) {
-        toggleCartItem(addId, !cart.has(addId));
+        addCartItem(addId, 1);
         renderSearchResults();
         openPanel("bag");
       }
@@ -3378,8 +3378,7 @@
 
     productCatalog.forEach((product) => {
       product.quickAddButton?.addEventListener("click", () => {
-        const shouldAdd = !cart.has(product.id);
-        toggleCartItem(product.id, shouldAdd);
+        addCartItem(product.id, 1);
       });
     });
 
@@ -3398,21 +3397,34 @@
       });
     });
 
-    const accountTabs = document.querySelectorAll(".account-tab");
-    const accountPanes = document.querySelectorAll(".account-pane");
-    accountTabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const next = tab.dataset.accountTab;
-        accountTabs.forEach((item) => {
-          const isActive = item === tab;
-          item.classList.toggle("is-active", isActive);
-          item.setAttribute("aria-selected", String(isActive));
-        });
-        accountPanes.forEach((pane) => {
-          pane.classList.toggle("is-active", pane.dataset.accountPane === next);
-        });
-      });
+    accountCard?.addEventListener("click", (event) => {
+      const signout = event.target.closest("[data-account-action='signout']");
+      if (!signout) {
+        return;
+      }
+      authUser = null;
+      renderAccountCard();
+      saveState();
+      showToast("Signed out.");
     });
+
+    if (accountLoginBtn) {
+      accountLoginBtn.addEventListener("click", () => {
+        authUser = { name: "Ayesha Khan", email: "ayesha@nishorama.com" };
+        renderAccountCard();
+        saveState();
+        showToast("Signed in to Nishorama.");
+      });
+    }
+
+    if (accountSignupBtn) {
+      accountSignupBtn.addEventListener("click", () => {
+        authUser = { name: "Ayesha Khan", email: "ayesha@nishorama.com" };
+        renderAccountCard();
+        saveState();
+        showToast("Demo profile created.");
+      });
+    }
 
     if (newsletterForm && newsletterStatus) {
       newsletterForm.addEventListener("submit", (event) => {
@@ -3425,6 +3437,9 @@
         showToast("Preview access confirmed.");
       });
     }
+
+    renderAccountCard();
+    syncCartUI();
 
     const revealItems = document.querySelectorAll("[data-reveal]");
     if (!prefersReducedMotion && "IntersectionObserver" in window) {
